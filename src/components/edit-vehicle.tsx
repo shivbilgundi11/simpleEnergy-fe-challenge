@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import {
   Dialog,
@@ -21,34 +21,38 @@ import { FleetContext } from '@/context/store';
 import { FiEdit } from 'react-icons/fi';
 
 type EditVehicleProps = {
-  vehicle: {
-    id: string;
-    name: string;
-    batteryPercentage: number;
-    totalDistance: number;
-    lastChargeTime: string;
-    status: string;
-  };
+  vehicleId: string;
 };
 
-export default function EditVehicle({ vehicle }: EditVehicleProps) {
-  const { dispatch } = useContext(FleetContext);
-  const [isOpen, setIsOpen] = useState(false); // State to manage dialog visibility
+export default function EditVehicle({ vehicleId }: EditVehicleProps) {
+  const { state, dispatch } = useContext(FleetContext);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [vehicleName, setVehicleName] = useState(vehicle.name);
-  const [batteryPercentage, setBatteryPercentage] = useState(
-    vehicle.batteryPercentage.toString(),
-  );
-  const [totalDistance, setTotalDistance] = useState(
-    vehicle.totalDistance.toString(),
-  );
-  const [lastChargeTime, setLastChargeTime] = useState(vehicle.lastChargeTime);
-  const [status, setStatus] = useState(vehicle.status);
+  // Local state for form values
+  const [vehicleName, setVehicleName] = useState('');
+  const [batteryPercentage, setBatteryPercentage] = useState('');
+  const [totalDistance, setTotalDistance] = useState('');
+  const [lastChargeTime, setLastChargeTime] = useState('');
+  const [status, setStatus] = useState('');
+
+  // Fetch the latest vehicle data from context when dialog opens
+  useEffect(() => {
+    if (isOpen) {
+      const vehicle = state.vehicles.find((v) => v.id === vehicleId);
+      if (vehicle) {
+        setVehicleName(vehicle.name);
+        setBatteryPercentage(vehicle.batteryPercentage.toString());
+        setTotalDistance(vehicle.totalDistance.toString());
+        setLastChargeTime(vehicle.lastChargeTime);
+        setStatus(vehicle.status);
+      }
+    }
+  }, [isOpen, vehicleId]);
 
   const handleEditVehicle = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate input values
+    // Validation
     if (
       !vehicleName ||
       !batteryPercentage ||
@@ -74,9 +78,9 @@ export default function EditVehicle({ vehicle }: EditVehicleProps) {
     dispatch({
       type: 'UpdateVehicle',
       payload: {
-        id: vehicle.id,
+        id: vehicleId,
         updatedData: {
-          id: vehicle.id,
+          id: vehicleId,
           name: vehicleName,
           batteryPercentage: Number(batteryPercentage),
           totalDistance: Number(totalDistance),
@@ -167,7 +171,6 @@ export default function EditVehicle({ vehicle }: EditVehicleProps) {
               <label htmlFor='status' className='block font-medium'>
                 Status
               </label>
-
               <Select
                 onValueChange={(value) => setStatus(value)}
                 value={status}
