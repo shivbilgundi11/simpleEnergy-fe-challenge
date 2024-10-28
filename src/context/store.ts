@@ -3,6 +3,7 @@ import { VehicleType } from '@/lib/types';
 
 type FleetState = {
   vehicles: VehicleType[];
+  simulationTime: number;
 };
 
 type AddVehicleAction = {
@@ -20,12 +21,21 @@ type DeleteVehicleAction = {
   payload: string;
 };
 
-type Action = AddVehicleAction | UpdateVehicleAction | DeleteVehicleAction;
+type UpdateSimIntervalAction = {
+  type: 'UpdateSimInterval';
+  payload: number;
+};
+
+type Action =
+  | AddVehicleAction
+  | UpdateVehicleAction
+  | DeleteVehicleAction
+  | UpdateSimIntervalAction;
 
 export const FleetContext = createContext<{
   state: FleetState;
   dispatch: Dispatch<Action>;
 }>({
-  state: { vehicles: [] },
+  state: { vehicles: [], simulationTime: 4000 },
   dispatch: () => {},
 });

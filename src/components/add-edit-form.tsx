@@ -19,6 +19,7 @@ import {
 import { Input } from './ui/input';
 import { LuPlus } from 'react-icons/lu';
 import { FleetContext } from '@/context/store';
+import ToggleSimTime from './toggle-sim-time';
 
 export default function AddNewVehicle() {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +80,8 @@ export default function AddNewVehicle() {
 
   return (
     <>
-      <div className='mb-4 flex h-auto w-full items-center justify-end'>
+      <div className='mb-4 flex h-auto w-full items-center justify-between'>
+        <ToggleSimTime />
         <Button
           onClick={() => setIsOpen(true)}
           className='border-2 bg-orange-400 text-black hover:bg-orange-400 hover:dark:bg-orange-400'

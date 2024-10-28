@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 type FleetState = {
   vehicles: VehicleType[];
+  simulationTime: number;
 };
 
 type AddVehicleAction = {
@@ -23,10 +24,20 @@ type DeleteVehicleAction = {
   payload: string;
 };
 
-type Action = AddVehicleAction | UpdateVehicleAction | DeleteVehicleAction;
+type UpdateSimIntervalAction = {
+  type: 'UpdateSimInterval';
+  payload: number;
+};
+
+type Action =
+  | AddVehicleAction
+  | UpdateVehicleAction
+  | DeleteVehicleAction
+  | UpdateSimIntervalAction;
 
 const initialState: FleetState = {
   vehicles: vehicles,
+  simulationTime: 10000,
 };
 
 const reducerFunct = (state: FleetState, action: Action): FleetState => {
@@ -51,6 +62,11 @@ const reducerFunct = (state: FleetState, action: Action): FleetState => {
         vehicles: state.vehicles.filter(
           (vehicle) => vehicle.id !== action.payload,
         ),
+      };
+    case 'UpdateSimInterval':
+      return {
+        ...state,
+        simulationTime: action.payload,
       };
     default:
       return state;
@@ -136,10 +152,10 @@ function FleetContextProvider({ children }: { children: ReactNode }) {
           );
         }
       });
-    }, 4000);
+    }, state.simulationTime);
 
     return () => clearInterval(interval);
-  }, [state.vehicles, dispatch]);
+  }, [state.vehicles, state.simulationTime, dispatch]);
 
   return (
     <FleetContext.Provider value={{ state, dispatch }}>
