@@ -33,11 +33,13 @@ export default function InfoTable({ data }: { data: VehicleType[] }) {
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody className=''>
+        <TableBody>
           {data &&
             data.map((vehicle) => (
               <TableRow key={vehicle.id}>
-                <TableCell className='font-bold'>{vehicle.name}</TableCell>
+                <TableCell className='font-bold capitalize'>
+                  {vehicle.name}
+                </TableCell>
                 <TableCell>{vehicle.batteryPercentage}%</TableCell>
                 <TableCell>{vehicle.totalDistance} km</TableCell>
                 <TableCell>
