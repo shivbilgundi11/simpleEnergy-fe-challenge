@@ -9,11 +9,11 @@ import {
 } from './ui/table';
 import { tableSections } from '@/lib/utils';
 import { MdDeleteSweep } from 'react-icons/md';
-import { FiEdit } from 'react-icons/fi';
 import { IoCarSportOutline } from 'react-icons/io5';
 import { VehicleType } from '@/lib/types';
 import { useContext } from 'react';
 import { FleetContext } from '@/context/store';
+import EditVehicle from './edit-vehicle';
 
 export default function InfoTable({ data }: { data: VehicleType[] }) {
   const { dispatch } = useContext(FleetContext);
@@ -47,9 +47,7 @@ export default function InfoTable({ data }: { data: VehicleType[] }) {
                 </TableCell>
                 <TableCell className='font-medium'>{vehicle.status}</TableCell>
                 <TableCell>
-                  <Button variant='ghost'>
-                    <FiEdit />
-                  </Button>
+                  <EditVehicle vehicle={vehicle} />
                 </TableCell>
                 <TableCell>
                   <Button
