@@ -9,44 +9,36 @@ type FleetState = {
   simulationTime: number;
 };
 
-type AddVehicleAction = {
-  type: 'AddNewVehicle';
-  payload: VehicleType;
-};
-
+// Action types
+type AddVehicleAction = { type: 'AddNewVehicle'; payload: VehicleType };
 type UpdateVehicleAction = {
   type: 'UpdateVehicle';
   payload: { id: string; updatedData: VehicleType };
 };
-
-type DeleteVehicleAction = {
-  type: 'DeleteVehicle';
-  payload: string;
-};
-
-type UpdateSimIntervalAction = {
-  type: 'UpdateSimInterval';
-  payload: number;
-};
-
+type DeleteVehicleAction = { type: 'DeleteVehicle'; payload: string };
+type UpdateSimIntervalAction = { type: 'UpdateSimInterval'; payload: number };
+type AddVehiclesAction = { type: 'AddVehicles'; payload: VehicleType[] };
 type Action =
   | AddVehicleAction
   | UpdateVehicleAction
   | DeleteVehicleAction
+  | AddVehiclesAction
   | UpdateSimIntervalAction;
 
+// Initial state
 const initialState: FleetState = {
   vehicles: vehicles,
   simulationTime: 180000,
 };
 
+// Reducer function
 const reducerFunct = (state: FleetState, action: Action): FleetState => {
   switch (action.type) {
     case 'AddNewVehicle':
-      return {
-        ...state,
-        vehicles: [...state.vehicles, action.payload],
-      };
+      return { ...state, vehicles: [...state.vehicles, action.payload] };
+    case 'AddVehicles':
+      console.log('action is : ', action.payload);
+      return { ...state, vehicles: action.payload };
     case 'UpdateVehicle':
       return {
         ...state,
@@ -64,33 +56,31 @@ const reducerFunct = (state: FleetState, action: Action): FleetState => {
         ),
       };
     case 'UpdateSimInterval':
-      return {
-        ...state,
-        simulationTime: action.payload,
-      };
+      return { ...state, simulationTime: action.payload };
     default:
       return state;
   }
 };
 
+// Context provider component
 function FleetContextProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducerFunct, initialState);
 
+  // Battery simulation logic
   useEffect(() => {
+    if (state.vehicles.length === 0) return;
+
     const interval = setInterval(() => {
       state.vehicles.forEach((vehicle) => {
         let newBattery = vehicle.batteryPercentage;
         let distanceTravelled = 0;
         let batteryLoss;
-        let newTotalDistance;
 
         switch (vehicle.status) {
           case 'In Transit':
             distanceTravelled = 3;
             batteryLoss = Math.floor(distanceTravelled / 3);
             newBattery = Math.max(vehicle.batteryPercentage - batteryLoss, 0);
-
-            newTotalDistance = vehicle.totalDistance + distanceTravelled;
 
             dispatch({
               type: 'UpdateVehicle',
@@ -99,7 +89,7 @@ function FleetContextProvider({ children }: { children: ReactNode }) {
                 updatedData: {
                   ...vehicle,
                   batteryPercentage: newBattery,
-                  totalDistance: newTotalDistance,
+                  totalDistance: vehicle.totalDistance + distanceTravelled,
                 },
               },
             });

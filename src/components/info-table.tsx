@@ -60,9 +60,9 @@ export default function InfoTable({ data }: { data: VehicleType[] }) {
                 <TableCell className='whitespace-nowrap'>
                   <Button
                     variant='destructive'
-                    onClick={() =>
-                      dispatch({ type: 'DeleteVehicle', payload: vehicle.id })
-                    }
+                    onClick={() => {
+                      dispatch({ type: 'DeleteVehicle', payload: vehicle.id });
+                    }}
                   >
                     <MdDeleteSweep />
                   </Button>

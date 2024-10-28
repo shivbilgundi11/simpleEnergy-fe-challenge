@@ -26,10 +26,16 @@ type UpdateSimIntervalAction = {
   payload: number;
 };
 
+type AddVehiclesAction = {
+  type: 'AddVehicles';
+  payload: VehicleType[];
+};
+
 type Action =
   | AddVehicleAction
   | UpdateVehicleAction
   | DeleteVehicleAction
+  | AddVehiclesAction
   | UpdateSimIntervalAction;
 
 export const FleetContext = createContext<{
