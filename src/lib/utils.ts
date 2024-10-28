@@ -5,6 +5,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Table Sections (Tables-Head-Cells)
+export const tableSections = [
+  { id: 2, name: 'Vehicle Name' },
+  { id: 3, name: 'Battery %' },
+  { id: 4, name: 'Distance Traveled (km)' },
+  { id: 5, name: 'Last Charged' },
+  { id: 6, name: 'Status' },
+  { id: 7, name: 'Edit' },
+  { id: 8, name: 'Remove' },
+];
+
 // Initial Vehicles
 export const vehicles = [
   {

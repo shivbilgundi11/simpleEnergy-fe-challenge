@@ -24,7 +24,7 @@ export default function Navbar() {
           <div className='inline-flex items-center justify-center gap-x-2'>
             <ThemeToggle />
             <a
-              href='https://github.com/shivbilgundi11/simple-energy-challenge'
+              href='https://github.com/shivbilgundi11/simpleEnergy-fe-challenge'
               target='_blank'
             >
               <Button>
