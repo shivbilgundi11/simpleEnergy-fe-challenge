@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import InfoTable from './info-table';
 import { FleetContext } from '@/context/store';
 import AddNewVehicle from './add-edit-form';
+import VehiclesMetrics from './vehicles-metrics';
 
 export default function VehiclesTable() {
   const { state } = useContext(FleetContext);
@@ -11,8 +12,12 @@ export default function VehiclesTable() {
       <main className='container my-3 mt-3 h-auto w-full'>
         {/* ========Add-New-Vehicle-Button======== */}
         <AddNewVehicle />
+
         {/* ========Vehicles-Table======== */}
         <InfoTable data={state.vehicles} />
+
+        {/* ========Vehicles-Metrics======== */}
+        <VehiclesMetrics />
       </main>
     </>
   );

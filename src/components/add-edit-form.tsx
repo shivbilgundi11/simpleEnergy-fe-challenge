@@ -60,7 +60,7 @@ export default function AddNewVehicle() {
     dispatch({
       type: 'AddNewVehicle',
       payload: {
-        id: crypto.randomUUID(), // Unique ID
+        id: crypto.randomUUID(),
         name: vehicleName,
         batteryPercentage: Number(batteryPercentage),
         totalDistance: Number(totalDistance),

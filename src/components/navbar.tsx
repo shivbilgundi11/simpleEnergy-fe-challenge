@@ -11,7 +11,11 @@ export default function Navbar() {
       <header className='container h-16 w-full border-b'>
         <nav className='flex h-full w-full items-center justify-between'>
           <div>
-            <a href='/' className='my-auto h-full'>
+            <a
+              href='https://simpleenergy.in/'
+              target='_blank'
+              className='my-auto h-full'
+            >
               <img src={Logo} alt='PageLogo' className='block dark:hidden' />
               <img
                 src={LogoDark}
