@@ -36,6 +36,6 @@ export const FleetContext = createContext<{
   state: FleetState;
   dispatch: Dispatch<Action>;
 }>({
-  state: { vehicles: [], simulationTime: 4000 },
+  state: { vehicles: [], simulationTime: 180000 },
   dispatch: () => {},
 });

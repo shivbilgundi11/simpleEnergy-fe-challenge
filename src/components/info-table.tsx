@@ -14,6 +14,8 @@ import { VehicleType } from '@/lib/types';
 import { useContext } from 'react';
 import { FleetContext } from '@/context/store';
 import EditVehicle from './edit-vehicle';
+import { DisplayBattery } from './displayers/display-battery';
+import { DisplayVehStatus } from './displayers/display-status';
 
 export default function InfoTable({ data }: { data: VehicleType[] }) {
   const { dispatch } = useContext(FleetContext);
@@ -32,19 +34,22 @@ export default function InfoTable({ data }: { data: VehicleType[] }) {
       <TableBody>
         {data &&
           data.map((vehicle) => (
-            <TableRow
-              key={vehicle.id}
-              className={vehicle.batteryPercentage < 15 ? 'bg-red-200' : ''}
-            >
+            <TableRow key={vehicle.id}>
               <TableCell className='font-bold capitalize'>
                 {vehicle.name}
               </TableCell>
-              <TableCell>{vehicle.batteryPercentage}%</TableCell>
-              <TableCell>{vehicle.totalDistance} km</TableCell>
               <TableCell>
+                <DisplayBattery batteryStatus={vehicle?.batteryPercentage} />
+              </TableCell>
+              <TableCell className='font-medium'>
+                {vehicle.totalDistance} km
+              </TableCell>
+              <TableCell className='font-medium'>
                 {new Date(vehicle.lastChargeTime).toLocaleString()}
               </TableCell>
-              <TableCell className='font-medium'>{vehicle.status}</TableCell>
+              <TableCell>
+                <DisplayVehStatus vehicleStatus={vehicle?.status} />
+              </TableCell>
               <TableCell>
                 <EditVehicle vehicleId={vehicle.id} />
               </TableCell>

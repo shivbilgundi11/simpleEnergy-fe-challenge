@@ -37,7 +37,7 @@ type Action =
 
 const initialState: FleetState = {
   vehicles: vehicles,
-  simulationTime: 10000,
+  simulationTime: 180000,
 };
 
 const reducerFunct = (state: FleetState, action: Action): FleetState => {
