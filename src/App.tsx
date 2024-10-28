@@ -1,7 +1,13 @@
+import { useContext } from 'react';
 import Navbar from './components/navbar';
 import { Button } from './components/ui/button';
+import { FleetContext } from './context/store';
 
 export default function App() {
+  const state = useContext(FleetContext);
+
+  console.log(state);
+
   return (
     <>
       <Navbar />
